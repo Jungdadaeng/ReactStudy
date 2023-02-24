@@ -1,0 +1,99 @@
+.feed {
+  background-color: white;
+  max-width: 500px;
+  border: 1px solid lightgray;
+  margin: 0 auto;
+  margin-bottom: 45px;
+}
+
+.feed__image {
+  width: 100%;
+  object-fit: contain;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.feed__comment {
+  font-weight: normal;
+  padding: 6px;
+  font-size: small;
+}
+
+.lightFont {
+  display: flex;
+  font-weight: lighter;
+}
+
+.lightFont2 {
+  display: flex;
+  font-weight: lighter;
+  padding: 8px;
+}
+
+.feed__text {
+  display: flex;
+  font-weight: normal;
+  padding: 5px;
+  align-items: center;
+}
+
+.sendComment {
+  display: flex;
+  padding: 5px;
+}
+
+.line {
+  background-color: lightgray;
+  height: 1px;
+  border: 0;
+}
+
+.sendBtn {
+  margin-left: auto;
+  color: blue;
+}
+
+.feed input {
+  border: none;
+}
+
+.feed__text2 {
+  display: flex;
+  font-weight: normal;
+  padding: 10px;
+  align-items: center;
+  font-size: small;
+}
+
+.feed__buttons {
+  background-color: white;
+  display: flex;
+}
+
+.feed button {
+  border: none;
+  background-color: white;
+}
+
+.feed__header {
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+}
+
+.feed__headermore {
+  margin-left: auto;
+}
+
+.feed__headertxt {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed__avatar {
+  margin-right: 10px;
+}
+
+.bookmark {
+  margin-left: auto;
+}
