@@ -1,5 +1,39 @@
 console.clear();
 
+function getWiseSaying() {
+    function getData() {
+        const arr = wiseSayings.trim().split("\n");
+
+        const data = [];
+
+        arr.forEach((row, index) => {
+            const [str, writer] = row.split("//");
+
+            data.push({
+                index,
+                str,
+                writer
+            });
+        });
+
+        return data;
+    }
+
+    function get(index) {
+        index = index % data.length;
+
+        return data[index];
+    }
+
+    const data = getData();
+
+    return {
+        get
+    };
+}
+
+const wiseSaying = getWiseSaying();
+
 const myConfetti = confetti.create(document.querySelector("#confetti-canvas"), {
     resize: true,
     useWorker: true
@@ -8,6 +42,8 @@ const myConfetti = confetti.create(document.querySelector("#confetti-canvas"), {
 import { CountUp } from "https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.1.0/countUp.min.js";
 
 const { useState, useRef, useEffect, useMemo } = React;
+
+import { produce } from "https://cdn.skypack.dev/immer";
 
 const {
     RecoilRoot,
@@ -149,6 +185,7 @@ function CountNumber({ start = 0, end = 1000, duration = 2 }) {
 }
 
 function RecordModal({ status }) {
+    const noticeSnackbarStatus = useNoticeSnackbarStatus();
     const recordsStatus = useRecordsStatus();
 
     const [recordCount, setRecordCount] = useState(0);
@@ -175,6 +212,7 @@ function RecordModal({ status }) {
         setRecordCount(0);
 
         status.close();
+        noticeSnackbarStatus.open(`이번 세트에 ${recordCount}회 수행하셨습니다.`);
     };
 
     const cancelRecord = () => {
@@ -226,24 +264,72 @@ function RecordModal({ status }) {
     );
 }
 
+const recordsAtom = atom({
+    key: "app/recordsAtom",
+    default: [],
+    effects_UNSTABLE: [persistAtomCommon]
+});
+
 const doneCountAtom = atom({
     key: "app/doneCountAtom",
-    default: 0
+    default: 0,
+    effects_UNSTABLE: [persistAtomCommon]
 });
 
 function useRecordsStatus() {
     const goalCount = 10000;
+    const [records, setRecords] = useRecoilState(recordsAtom);
     const [doneCount, setDoneCount] = useRecoilState(doneCountAtom);
     const restCount = goalCount - doneCount;
 
     const saveRecord = (addiDoneCount) => {
         setDoneCount(doneCount + addiDoneCount);
+        const newRecord = {
+            count: addiDoneCount,
+            regDate: dateToStr(new Date())
+        };
+        const newRecords = [newRecord, ...records];
+        setRecords(newRecords);
+    };
+
+    const findIndexById = (id) => {
+        if (id === null) {
+            return -1;
+        }
+
+        if (id < 1) {
+            return -1;
+        }
+
+        if (id > records.length) {
+            return -1;
+        }
+
+        return records.length - id;
+    };
+
+    const removeRecordById = (id) => {
+        const index = findIndexById(id);
+
+        if (index == -1) return;
+
+        const record = records[index];
+
+        setRecords(
+            produce(records, (draft) => {
+                draft.splice(index, 1);
+            })
+        );
+
+        setDoneCount(doneCount - record.count);
     };
 
     return {
         restCount,
         saveRecord,
-        goalCount
+        goalCount,
+        records,
+        removeRecordById
     };
 }
 
@@ -269,7 +355,7 @@ function MainPage() {
             <RecordModal status={recordModalStatus} />
             <div className="flex-1 flex items-center justify-center">
                 <div>
-                    <div className="text-[100px] text-[color:var(--mui-color-primary-main)] font-mono">
+                    <div className="text-[100px] text-[color:var(--mui-color-primary-main)] font-mono select-none">
                         <CountNumber
                             start={recordsStatus.goalCount}
                             end={recordsStatus.restCount}
@@ -287,11 +373,144 @@ function MainPage() {
     );
 }
 
-function HistoryPage() {
+function WiseSaying({ index }) {
+    const { str, writer } = wiseSaying.get(index);
+
     return (
         <>
-            <div className="flex-1 flex items-center justify-center">
-                <div>히스토리 페이지</div>
+            {str}
+            <br />- {writer} -
+        </>
+    );
+}
+
+function RecordListItem({ no, record, optionDrawerStatus }) {
+    const wiseSayingIndex = no % 5 == 0 ? no / 5 - 1 : null;
+
+    return (
+        <li className="mt-10 px-10">
+            <div className="flex gap-2">
+                <Chip label={`${no}회차`} variant="outlined" className="!pt-1" />
+                <Chip
+                    label={record.regDate}
+                    variant="outlined"
+                    className="!pt-1"
+                    color="primary"
+                />
+            </div>
+            <div className="mt-4 shadow rounded-[20px] flex">
+                <div className="px-5 hover:text-[color:var(--mui-color-primary-main)] flex-grow flex items-center whitespace-pre-wrap leading-relaxed my-5">
+                    {record.count}회 수행
+                    {wiseSayingIndex !== null && (
+                        <>
+                            <br />
+                            <br />
+                            <WiseSaying index={wiseSayingIndex} />
+                        </>
+                    )}
+                </div>
+                <Button
+                    onClick={() => optionDrawerStatus.open(no)}
+                    className="flex-shrink-0 !items-start !rounded-[0_20px_20px_0]"
+                    color="inherit"
+                >
+                    <span className="text-[#dcdcdc] text-2xl h-[80px] flex items-center">
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                    </span>
+                </Button>
+            </div>
+        </li>
+    );
+}
+
+function useRecordOptionDrawerStatus() {
+    const [recordId, setRecordId] = useState(null);
+    const opened = useMemo(() => recordId !== null, [recordId]);
+    const close = () => setRecordId(null);
+    const open = (id) => setRecordId(id);
+
+    return {
+        recordId,
+        opened,
+        close,
+        open
+    };
+}
+
+function RecordOptionDrawer({ status }) {
+    const noticeSnackbarStatus = useNoticeSnackbarStatus();
+    const recordsStatus = useRecordsStatus();
+
+    const removeRecord = () => {
+        recordsStatus.removeRecordById(status.recordId);
+
+        status.close();
+        noticeSnackbarStatus.open(
+            `${status.recordId}번 기록이 삭제되었습니다.`,
+            "info"
+        );
+    };
+
+    return (
+        <>
+            <SwipeableDrawer
+                anchor="bottom"
+                open={status.opened}
+                onClose={status.close}
+                onOpen={() => { }}
+            >
+                <List className="!py-0">
+                    <ListItem className="!pt-6 !p-5">
+                        <span className="text-[color:var(--mui-color-primary-main)]">
+                            {status.recordId}번
+                        </span>
+                        <span>&nbsp;</span>
+                        <span>기록에 대해서</span>
+                    </ListItem>
+                    <Divider />
+                    <ListItem
+                        className="!pt-6 !p-5 !items-baseline"
+                        button
+                        onClick={removeRecord}
+                    >
+                        <i className="fa-solid fa-trash-can"></i>
+                        &nbsp;
+                        <span>삭제</span>
+                    </ListItem>
+                    <ListItem
+                        className="!pt-6 !p-5 !items-baseline"
+                        button
+                        onClick={() => { }}
+                    >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                        &nbsp;
+                        <span>수정</span>
+                    </ListItem>
+                </List>
+            </SwipeableDrawer>
+        </>
+    );
+}
+
+function HistoryPage() {
+    const recordsStatus = useRecordsStatus();
+    const recordOptionDrawerStatus = useRecordOptionDrawerStatus();
+
+    return (
+        <>
+            <RecordOptionDrawer status={recordOptionDrawerStatus} />
+            <div className="flex-1">
+                <ul>
+                    {recordsStatus.records.map((record, index) => (
+                        <RecordListItem
+                            key={index}
+                            record={record}
+                            index={index}
+                            no={recordsStatus.records.length - index}
+                            optionDrawerStatus={recordOptionDrawerStatus}
+                        />
+                    ))}
+                </ul>
             </div>
         </>
     );
@@ -325,7 +544,7 @@ function App() {
             <Routes>
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/history" element={<HistoryPage />} />
-                <Route path="*" element={<Navigate to="/main" />} />
+                <Route path="*" element={<Navigate to="/history" />} />
             </Routes>
         </>
     );

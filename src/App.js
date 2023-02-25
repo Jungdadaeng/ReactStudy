@@ -9,23 +9,28 @@ import SportsHistory from './components/SportsChallenge/SportsHistory';
 import SportsHeader from './components/SportsChallenge/SportsHeader';
 import SportsChallenge from './components/SportsChallenge/SportsChallenge';
 import Instagram from './components/Instagram/Instagram';
+import {
+  RecoilRoot, atom, selector, useRecoilState, useRecoilValue
+} from 'recoil';
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path='/' element={<Apage />} />
-        <Route path='/A' element={<Apage />} />
-        <Route path='/B' element={<Bpage />} />
-        <Route path='/C' element={<Cpage />} />
-        <Route element={<SportsHeader />}>
-          <Route path="/sports" element={<SportsMain />} />
-          <Route path="/sports/history" element={<SportsHistory />} />
-          <Route path="/sports/challenge" element={<SportsChallenge />} />
+    <RecoilRoot>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path='/' element={<Apage />} />
+          <Route path='/A' element={<Apage />} />
+          <Route path='/B' element={<Bpage />} />
+          <Route path='/C' element={<Cpage />} />
+          <Route element={<SportsHeader />}>
+            <Route path="/sports" element={<SportsMain />} />
+            <Route path="/sports/history" element={<SportsHistory />} />
+            <Route path="/sports/challenge" element={<SportsChallenge />} />
+          </Route>
+          <Route path="/insta" element={<Instagram />} />
         </Route>
-        <Route path="/insta" element={<Instagram />} />
-      </Route>
-      <Route path='/login' element={<Login />} />
-    </Routes>
+        <Route path='/login' element={<Login />} />
+      </Routes>
+    </RecoilRoot>
   );
 }
 
