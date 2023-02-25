@@ -44,7 +44,9 @@ function reducer(state = initial, action) {
       }
     case 'remove':
       return {
-        ...state, history: state.history.filter((todo, index) => index !== action.payload)
+        ...state,
+        goalcount: state.goalcount + state.history.find((data, index) => index == action.payload.index),
+        history: state.history.filter((data, index) => index !== action.payload.index)
       }
     default:
       return state;

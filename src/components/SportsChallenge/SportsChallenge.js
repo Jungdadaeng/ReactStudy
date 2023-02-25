@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { React, useState } from 'react'
-import './SportsChallenge.css'
-import confetti from 'canvas-confetti'
 import { useSelector, useDispatch } from 'react-redux'
-import { createStore } from 'redux'
+import confetti from 'canvas-confetti'
+import './SportsChallenge.css'
+
 const SportsChallenge = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -12,35 +12,9 @@ const SportsChallenge = () => {
         resize: true,
         useWorker: true
     });
-    const goalCount = useSelector((state) => state.goalcount);
-    const doneCount = useSelector((state) => state.donecount);
-    // const goalCount = 10000;
-    //const [doneCount, setDoneCount] = useState(0);
 
-    // const restCount = goalCount - doneCount;
     const [recordCount, setRecordCount] = useState(0);
-    // const [addiCount, setAddiCount] = useState(0);
 
-    // const changeDoneCount = () => {
-    //     // setDoneCount(doneCount + addiCount);
-    //     setAddiCount(0);
-    // }
-
-    // const cancelDoneCount = () => {
-    //     setAddiCount(0);
-    // }
-
-    // const increaseAddiCount = (count) => {
-    //     setAddiCount(addiCount + count);
-    // };
-
-    // const decreaseAddiCount = (count) => {
-    //     if (addiCount - count < 0) {
-    //         setAddiCount(0);
-    //     } else {
-    //         setAddiCount(addiCount - count);
-    //     }
-    // };
     const changeRecordCount = (addiCount) => {
         if (addiCount > 0) {
             myConfetti({
@@ -56,8 +30,6 @@ const SportsChallenge = () => {
     const saveRecord = () => {
         if (recordCount == 0) return;
         dispatch({ type: 'save', payload: { recordcount: recordCount } })
-
-        // recordsStatus.saveRecord(recordCount);
         setRecordCount(0);
         navigate('/sports');
     };
