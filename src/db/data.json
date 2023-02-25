@@ -2,17 +2,17 @@
     "contents": [
         {
             "id": 1,
-            "content": "A",
+            "content": "home",
             "title": "HOME"
         },
         {
             "id": 2,
-            "content": "B",
+            "content": "projects",
             "title": "TOY PROJECT"
         },
         {
             "id": 3,
-            "content": "C",
+            "content": "qna",
             "title": "QNA"
         }
     ]

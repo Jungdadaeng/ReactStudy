@@ -1,5 +1,5 @@
 import './page.css'
-const Apage = () => {
+const Home = () => {
     return (
         <div className='page'>
             홈 화면입니다.
@@ -7,4 +7,4 @@ const Apage = () => {
     )
 }
 
-export default Apage;
+export default Home;

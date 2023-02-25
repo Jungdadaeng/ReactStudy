@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import Apage from './pages/Apage'
-import Bpage from './pages/Bpage'
-import Cpage from './pages/Cpage'
+import Home from './pages/Home'
+import Projects from './pages/Projects'
+import QnA from './pages/QnA'
 import Login from './pages/Login'
 import Layout from './components/Layout/Layout'
 import SportsMain from './components/SportsChallenge/SportsMain'
@@ -17,10 +17,10 @@ function App() {
     <RecoilRoot>
       <Routes>
         <Route element={<Layout />}>
-          <Route path='/' element={<Apage />} />
-          <Route path='/A' element={<Apage />} />
-          <Route path='/B' element={<Bpage />} />
-          <Route path='/C' element={<Cpage />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/projects' element={<Projects />} />
+          <Route path='/qna' element={<QnA />} />
           <Route element={<SportsHeader />}>
             <Route path="/sports" element={<SportsMain />} />
             <Route path="/sports/history" element={<SportsHistory />} />

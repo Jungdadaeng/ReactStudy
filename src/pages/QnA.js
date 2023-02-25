@@ -1,7 +1,7 @@
 import './page.css'
 import Auth from '../components/Layout/Auth'
 
-const Cpage = () => {
+const QnA = () => {
     Auth();
     return (
         <div className='page'>
@@ -10,4 +10,4 @@ const Cpage = () => {
     )
 }
 
-export default Cpage;
+export default QnA;

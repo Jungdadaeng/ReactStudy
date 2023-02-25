@@ -1,7 +1,7 @@
 import './page.css'
 import { Link } from "react-router-dom";
 import Auth from '../components/Layout/Auth'
-const Bpage = () => {
+const Projects = () => {
     return (
         <div >
             <div>
@@ -17,4 +17,4 @@ const Bpage = () => {
     )
 }
 
-export default Bpage;
+export default Projects;
