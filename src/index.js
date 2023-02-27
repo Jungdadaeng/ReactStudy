@@ -14,20 +14,6 @@ const initial = {
   recordcount: 0,
   history: []
 }
-//액션 생성 함수 만들기
-const addHistory = (text) => {
-  return {
-    type: ADD_HISTORY,
-    payload: text
-  }
-}
-const removeHistory = (index) => {
-  return {
-    type: REMOVE_HISTORY,
-    payload: index
-  }
-}
-
 
 function reducer(state = initial, action) {
   switch (action.type) {

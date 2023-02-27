@@ -10,16 +10,13 @@ const Sidebar = () => {
             <section className="box">
                 <aside className="box-sidebar">
                     {
-                        db.contents.map((data, index) => {
+                        db.contents.map((data) => {
                             return (
-                                <>
-                                    <div key={index}>
-                                        <Link to={`/${data.content}`} style={{ textDecoration: "none", color: `${(active === '' ? 'A' : active) === data.content ? 'dodgerblue' : 'black'}` }}>
-                                            <p>{`${data.title}`}</p>
-                                        </Link>
-                                    </div>
-
-                                </>
+                                <div key={data.id}>
+                                    <Link to={`/${data.content}`} style={{ textDecoration: "none", color: `${(active === '' ? 'A' : active) === data.content ? 'dodgerblue' : 'black'}` }}>
+                                        <p>{`${data.title}`}</p>
+                                    </Link>
+                                </div>
                             )
                         })
                     }
