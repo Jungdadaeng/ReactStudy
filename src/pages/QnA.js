@@ -6,7 +6,6 @@ const QnA = () => {
     Auth();
     return (
         <div className='page'>
-            This is Page C!
         </div>
     )
 }
