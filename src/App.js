@@ -8,6 +8,7 @@ import SportsMain from './components/SportsChallenge/SportsMain'
 import SportsHistory from './components/SportsChallenge/SportsHistory';
 import SportsHeader from './components/SportsChallenge/SportsHeader';
 import SportsChallenge from './components/SportsChallenge/SportsChallenge';
+import KaKaoMap from './components/KaKaoMap';
 import Instagram from './components/Instagram/Instagram';
 import {
   RecoilRoot, atom, selector, useRecoilState, useRecoilValue
@@ -22,11 +23,12 @@ function App() {
           <Route path='/projects' element={<Projects />} />
           <Route path='/qna' element={<QnA />} />
           <Route element={<SportsHeader />}>
-            <Route path="/sports" element={<SportsMain />} />
-            <Route path="/sports/history" element={<SportsHistory />} />
-            <Route path="/sports/challenge" element={<SportsChallenge />} />
+            <Route path='/sports' element={<SportsMain />} />
+            <Route path='/sports/history' element={<SportsHistory />} />
+            <Route path='/sports/challenge' element={<SportsChallenge />} />
           </Route>
-          <Route path="/insta" element={<Instagram />} />
+          <Route path='/insta' element={<Instagram />} />
+          <Route path='/kakao' element={<KaKaoMap />} />
         </Route>
         <Route path='/login' element={<Login />} />
       </Routes>
