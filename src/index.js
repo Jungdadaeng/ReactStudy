@@ -12,7 +12,9 @@ const initial = {
   goalcount: 10000,
   donecount: 0,
   recordcount: 0,
-  history: []
+  history: [],
+
+  todos:[]
 }
 
 function reducer(state = initial, action) {
@@ -34,13 +36,27 @@ function reducer(state = initial, action) {
         goalcount: state.goalcount + state.history.find((data, index) => index == action.payload.index),
         history: state.history.filter((data, index) => index !== action.payload.index)
       }
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            id: action.id,
+            text: action.text
+          }
+        ]
+      };
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.id)
+      };
     default:
       return state;
   }
 
 }
-
-
 
 let store = createStore(reducer);
 const root = ReactDOM.createRoot(document.getElementById('root'));

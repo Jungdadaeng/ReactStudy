@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { React, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {  useDispatch } from 'react-redux'
 import confetti from 'canvas-confetti'
 import './SportsChallenge.css'
 

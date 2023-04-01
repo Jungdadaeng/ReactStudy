@@ -13,6 +13,7 @@ import Instagram from './components/Instagram/Instagram';
 import {
   RecoilRoot, atom, selector, useRecoilState, useRecoilValue
 } from 'recoil';
+import ReduxPractice from './components/ReduxPractice';
 function App() {
   return (
     <RecoilRoot>
@@ -29,6 +30,7 @@ function App() {
           </Route>
           <Route path='/insta' element={<Instagram />} />
           <Route path='/kakao' element={<KaKaoMap />} />
+          <Route path='/redux' element={<ReduxPractice />} />
         </Route>
         <Route path='/login' element={<Login />} />
       </Routes>
