@@ -45,4 +45,4 @@ const mapDispatchToProps = dispatch => ({
   deleteTodo: id => dispatch({ type: 'DELETE_TODO', id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReduxPractice);
+export default connect(mapStateToProps, mapDispatchToProps)(ReduxPractice); // react-redux 패키지에서 제공하는 함수로 Redux Store와 React 컴포넌트를 연결해주는 역할, mapStateToprops는 스토어에서 상태를 가져와 ReactComponent의 pops로 매핑해주는 역할 mapDispatchToProps는 상태 업데이트할 때 사용하는 액션을 디스패치하는 함수를 React컴포넌트의 props로 매핑해주는 역할
